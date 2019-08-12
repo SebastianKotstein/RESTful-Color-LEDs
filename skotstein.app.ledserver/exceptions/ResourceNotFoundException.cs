@@ -19,10 +19,10 @@ namespace skotstein.app.ledserver.exceptions
     /// </summary>
     public class ResourceNotFoundException : HttpRequestException
     {
-        public const string MSG_CONTROLLER_NOT_FOUND = "The controller having the 'ID':'{VALUE}' does not exists";
-        public const string MSG_GROUP_NOT_FOUND = "The group having the 'ID':'{VALUE}' does not exists";
-        public const string MSG_LED_NOT_FOUND = "The LED having the 'ID':'{VALUE}' does not exists";
-        public const string MSG_FIRMWARE_NOT_FOUND = "The firmware having the 'ID':'{VALUE}' does not exists";
+        public const string MSG_CONTROLLER_NOT_FOUND = "The controller having the 'ID':'{VALUE}' does not exist";
+        public const string MSG_GROUP_NOT_FOUND = "The group having the 'ID':'{VALUE}' does not exist";
+        public const string MSG_LED_NOT_FOUND = "The LED having the 'ID':'{VALUE}' does not exist";
+        public const string MSG_FIRMWARE_NOT_FOUND = "The firmware having the 'ID':'{VALUE}' does not exist";
         public const string MSG_SCHEMA_NOT_FOUND = "The requested schema is unknown";
 
         /// <summary>
