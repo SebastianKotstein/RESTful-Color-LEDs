@@ -1,0 +1,149 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{CF9BB866-B5E9-416D-970F-97E20425D2C4}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>skotstein.app.ledserver</RootNamespace>
+    <AssemblyName>skotstein.app.ledserver</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json.Schema, Version=3.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.Schema.3.0.11\lib\net45\Newtonsoft.Json.Schema.dll</HintPath>
+    </Reference>
+    <Reference Include="Restful.NET.Core">
+      <HintPath>..\..\..\WebServer.NET\RESTful.NET\RESTful.NET\bin\Debug\Restful.NET.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="skotstein.net.http.oauth">
+      <HintPath>..\..\..\WebServer.NET\RESTful.NET\skotstein.net.http.oauth\bin\Debug\skotstein.net.http.oauth.dll</HintPath>
+    </Reference>
+    <Reference Include="skotstein.net.http.oauth.filestorage">
+      <HintPath>..\..\..\WebServer.NET\RESTful.NET\skotstein.net.http.oauth.filestorage\bin\Debug\skotstein.net.http.oauth.filestorage.dll</HintPath>
+    </Reference>
+    <Reference Include="skotstein.net.http.oauth.webkit">
+      <HintPath>..\..\..\WebServer.NET\RESTful.NET\skotstien.net.http.oauth.webkit\bin\Debug\skotstein.net.http.oauth.webkit.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="businesslayer\ControllerHandler.cs" />
+    <Compile Include="businesslayer\FirmwareHandler.cs" />
+    <Compile Include="businesslayer\GroupHandler.cs" />
+    <Compile Include="businesslayer\LedHandler.cs" />
+    <Compile Include="businesslayer\TrunkEndpoint.cs" />
+    <Compile Include="exceptions\BadRequestException.cs" />
+    <Compile Include="exceptions\ResourceNotFoundException.cs" />
+    <Compile Include="model\AuthBase.cs" />
+    <Compile Include="model\Base.cs" />
+    <Compile Include="model\Controller.cs" />
+    <Compile Include="model\ControllerFirmware.cs" />
+    <Compile Include="model\ErrorMessage.cs" />
+    <Compile Include="model\Firmware.cs" />
+    <Compile Include="model\FirmwareCollection.cs" />
+    <Compile Include="model\Group.cs" />
+    <Compile Include="model\Controllers.cs" />
+    <Compile Include="model\ControllerLeds.cs" />
+    <Compile Include="model\GroupLeds.cs" />
+    <Compile Include="model\Groups.cs" />
+    <Compile Include="model\Hyperlink.cs" />
+    <Compile Include="model\Led.cs" />
+    <Compile Include="model\Leds.cs" />
+    <Compile Include="model\RgbValue.cs" />
+    <Compile Include="persistent\impl\ControllerDataSetJson.cs" />
+    <Compile Include="persistent\impl\FileBasedControllerStorage.cs" />
+    <Compile Include="persistent\impl\FileBasedFirmwareStorage.cs" />
+    <Compile Include="persistent\impl\FileBasedGroupStorage.cs" />
+    <Compile Include="persistent\impl\FirmwareDataSetJson.cs" />
+    <Compile Include="persistent\impl\GroupDataSetJson.cs" />
+    <Compile Include="persistent\inf\IControllerDataSet.cs" />
+    <Compile Include="persistent\inf\IControllerStorage.cs" />
+    <Compile Include="persistent\inf\IFirmwareDataSet.cs" />
+    <Compile Include="persistent\inf\IFirmwareStorage.cs" />
+    <Compile Include="persistent\inf\IGroupDataSet.cs" />
+    <Compile Include="persistent\inf\IGroupStorage.cs" />
+    <Compile Include="persistent\inf\ILedDataSet.cs" />
+    <Compile Include="persistent\inf\ILedStorage.cs" />
+    <Compile Include="persistent\impl\LedDataSetNonPersistent.cs" />
+    <Compile Include="persistent\impl\MemoryBasedLedStorage.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="restlayer\ApiBase.cs" />
+    <Compile Include="restlayer\AuthController.cs" />
+    <Compile Include="restlayer\BaseController.cs" />
+    <Compile Include="restlayer\ControllerTrunk.cs" />
+    <Compile Include="restlayer\FirmwareController.cs" />
+    <Compile Include="restlayer\GroupController.cs" />
+    <Compile Include="restlayer\ControllerController.cs" />
+    <Compile Include="restlayer\LedController.cs" />
+    <Compile Include="tools\JsonSerializer.cs" />
+    <Compile Include="tools\OptionsPayloadInjector.cs" />
+    <Compile Include="tools\Scopes.cs" />
+    <Compile Include="tools\Settings.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.6.1 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
