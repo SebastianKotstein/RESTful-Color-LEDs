@@ -34,7 +34,7 @@ namespace skotstein.app.ledserver.exceptions
             this.ErrorMessage = JsonSerializer.SerializeJson(new ErrorMessage(404, message));
             this.ContentType = MimeType.APPLICATION_JSON;
             this.Status = HttpStatus.NotFound;
-            
+             
         }
     }
 }
