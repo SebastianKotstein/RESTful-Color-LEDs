@@ -19,44 +19,28 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace skotstein.app.ledserver.model
+namespace skotstein.app.ledserver.documentation
 {
-    /// <summary>
-    /// Represents a resource which contains a RGB value.
-    /// A JSON representation is used as a payload to the set the color of LEDs.
-    /// </summary>
-    [DisplayName("RGB Value")]
-    [Description("A RGB color value of a LED")]
-    public class RgbValue
+    public class HostValue
     {
-        public const string SCHEMA_NAME = "rgbvalue";
+        private string _hostValue;
 
-        private string _rgbValue;
+        public HostValue(string host)
+        {
+            Value = host;
+        }
 
-        /// <summary>
-        /// Gets or sets the RGB color value
-        /// </summary>
-        [DisplayName("RGB Value")]
-        [Description("A RGB color value of a LED")]
-        [JsonProperty("rgb")]
-        public string Rgb
+        [Replaces("pseudo://localhost")]
+        public string Value
         {
             get
             {
-                return _rgbValue;
+                return _hostValue;
             }
 
             set
             {
-                _rgbValue = value;
+                _hostValue = "\""+value+"\"";
             }
         }
     }

@@ -1,4 +1,25 @@
-﻿using Newtonsoft.Json;
+﻿// MIT License
+//
+// Copyright (c) 2019 Sebastian Kotstein
+// 
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -27,13 +48,23 @@ namespace skotstein.app.ledserver.tools
         private int _clientTimeout;
 
         private int _serverPort;
+        private bool _multithreaded;
+
         private string _firmwarePath;
         private string _controllerPath;
         private string _groupPath;
 
+        private bool _oauth;
         private string _clientPath;
         private string _refreshTokenPath;
         private string _userPath;
+
+        /// <summary>
+        /// Enables or disables HATEOAS. If HATEOAS is enabled (recommended), the response of an API call contains hyperlinks pointing to related resources 
+        /// and available actions. Disabling HATEOAS is not recommended as it vialotes the corresponding REST-constraint and the underlying principles for a hyper-driven API design.
+        /// Hence, this flag should only be used for debugging or by using an additional HATEOAS wrapper. 
+        /// </summary>
+        public const bool ENABLE_HATEOAS = true;
 
 
         [JsonProperty("wifiSsid")]
@@ -103,6 +134,19 @@ namespace skotstein.app.ledserver.tools
             set
             {
                 _serverPort = value;
+            }
+        }
+
+        [JsonProperty("multithreaded")]
+        public bool Multithreaded
+        {
+            get
+            {
+                return _multithreaded;
+            }
+            set
+            {
+                _multithreaded = value;
             }
         }
 
@@ -187,6 +231,20 @@ namespace skotstein.app.ledserver.tools
             set
             {
                 _userPath = value;
+            }
+        }
+
+        [JsonProperty("oauth")]
+        public bool Oauth
+        {
+            get
+            {
+                return _oauth;
+            }
+
+            set
+            {
+                _oauth = value;
             }
         }
 

@@ -1,4 +1,6 @@
-﻿// MIT License
+﻿extensions: designer.cs generated.cs
+extensions: .cs .cpp .h
+// MIT License
 //
 // Copyright (c) 2019 Sebastian Kotstein
 // 
@@ -19,45 +21,18 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+extensions: .aspx .ascx
+<%-- 
+MIT License
+--%>
+<%-- 
+Copyright (c) 2019 Sebastian Kotstein
+--%>
 
-namespace skotstein.app.ledserver.model
-{
-    /// <summary>
-    /// Represents a resource which contains a RGB value.
-    /// A JSON representation is used as a payload to the set the color of LEDs.
-    /// </summary>
-    [DisplayName("RGB Value")]
-    [Description("A RGB color value of a LED")]
-    public class RgbValue
-    {
-        public const string SCHEMA_NAME = "rgbvalue";
-
-        private string _rgbValue;
-
-        /// <summary>
-        /// Gets or sets the RGB color value
-        /// </summary>
-        [DisplayName("RGB Value")]
-        [Description("A RGB color value of a LED")]
-        [JsonProperty("rgb")]
-        public string Rgb
-        {
-            get
-            {
-                return _rgbValue;
-            }
-
-            set
-            {
-                _rgbValue = value;
-            }
-        }
-    }
-}
+extensions:  .xml .config .xsd
+<!--
+MIT License
+-->
+<!--
+Copyright (c) 2019 Sebastian Kotstein
+-->

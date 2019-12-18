@@ -1,4 +1,25 @@
-﻿using skotstein.app.ledserver.exceptions;
+﻿// MIT License
+//
+// Copyright (c) 2019 Sebastian Kotstein
+// 
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+using skotstein.app.ledserver.exceptions;
 using skotstein.app.ledserver.model;
 using skotstein.app.ledserver.persistent;
 using skotstein.app.ledserver.restlayer;
@@ -84,6 +105,7 @@ namespace skotstein.app.ledserver.businesslayer
                         fw.Uuid = query["uuid"];
                         fw.LedCount = query["leds"];
                     }
+                    fw.HasRawData = _firmwareStorage.HasRawData(fds.Id);
                     firmwareCollection.FirmwareList.Add(fw);
                 }
             }
@@ -131,6 +153,7 @@ namespace skotstein.app.ledserver.businesslayer
                         fw.Uuid = query["uuid"];
                         fw.LedCount = query["leds"];
                     }
+                    fw.HasRawData = _firmwareStorage.HasRawData(fds.Id);
                     firmwareCollection.FirmwareList.Add(fw);
                 }
             }
@@ -149,7 +172,6 @@ namespace skotstein.app.ledserver.businesslayer
         public string CreateFirmware(string deviceName, int minorVersion, int majorVersion, string fileExtension)
         {
             IFirmwareDataSet fds = new FirmwareDataSetJson();
-            fds.Id = "F" + _firmwareStorage.IdCounter++;
             fds.DeviceName = deviceName;
             if (String.IsNullOrWhiteSpace(fileExtension))
             {
@@ -158,7 +180,7 @@ namespace skotstein.app.ledserver.businesslayer
             fds.FirmwareFileExtension = fileExtension;
             fds.MajorVersion = majorVersion;
             fds.MinorVersion = minorVersion;
-
+            fds.Id = "F" + _firmwareStorage.IdCounter++;
             _firmwareStorage.CreateFirmware(fds, "");
             return fds.Id;
         }
@@ -188,6 +210,7 @@ namespace skotstein.app.ledserver.businesslayer
                     fw.Uuid = query["uuid"];
                     fw.LedCount = query["leds"];
                 }
+                fw.HasRawData = _firmwareStorage.HasRawData(id);
                 return fw;
             }
             else
@@ -248,6 +271,10 @@ namespace skotstein.app.ledserver.businesslayer
             IFirmwareDataSet fds = _firmwareStorage.GetFirmware(id);
             if (fds != null)
             {
+                if (!_firmwareStorage.HasRawData(id))
+                {
+                    throw new ResourceNotFoundException(ResourceNotFoundException.MSG_FILE_NOT_FOUND);
+                }
                 string rawData = _firmwareStorage.GetRawData(id);
                 return rawData.Replace(PLACEHOLDER_UUID, uuid)
                     .Replace(PLACEHOLDER_MIN_VERSION, fds.MinorVersion + "")
@@ -267,16 +294,19 @@ namespace skotstein.app.ledserver.businesslayer
         }
 
         /// <summary>
-        /// Changes the raw data of the firmware file linked to the firmware meta information having the passed ID.
+        /// Creates or changes the raw data of the firmware having the passed ID. The method returns true, if a the raw data is created or false, if the raw data is changed.
         /// The methods throws a <see cref="ResourceNotFoundException"/> if the requested <see cref="Firmware"/> does not exist.
         /// </summary>
         /// <param name="id">see cref="Firmware.Id"/> of the firmeware whose firmware file content should be changed</param>
         /// <param name="rawData">the raw data</param>
-        public void SetRawData(string id, string rawData)
+        /// <returns>true or false</returns>
+        public bool SetRawData(string id, string rawData)
         {
             if (_firmwareStorage.HasFirmware(id))
             {
+                bool created = !_firmwareStorage.HasRawData(id);
                 _firmwareStorage.SetRawData(id, rawData);
+                return created;
             }
             else
             {

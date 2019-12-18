@@ -19,43 +19,40 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
+using skotstein.app.ledserver.model;
+using skotstein.net.http.oauth;
+using SKotstein.Net.Http.Context;
+using SKotstein.Net.Http.Manipulation;
+using SKotstein.Net.Http.Model.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace skotstein.app.ledserver.persistent
+namespace skotstein.app.ledserver.tools
 {
-    /// <summary>
-    /// An implementation of <see cref="IFirmwareDataSet"/> includes the meta data of a firmware file. By using an implementation of <see cref="IFirmwareStorage"/>, an instance of <see cref="IFirmwareDataSet"/> can be stored persistently.
-    /// </summary>
-    public interface IFirmwareDataSet
+    public class CustomizedAccessTokenValidator : HttpManipulator<RoutedContext>
     {
-        /// <summary>
-        /// Gets or sets the identifier of the firmware.
-        /// </summary>
-        string Id { get; set; }
+        private AccessTokenValidator _accessTokenValidator;
 
-        /// <summary>
-        /// Gets or sets the minor version of the firmware.
-        /// </summary>
-        int MinorVersion { get; set; }
+        public CustomizedAccessTokenValidator(AccessTokenValidator accessTokenValidator)
+        {
+            _accessTokenValidator = accessTokenValidator;
+        }
 
-        /// <summary>
-        /// Gets or sets the major version of the firmware.
-        /// </summary>
-        int MajorVersion { get; set; }
-
-        /// <summary>
-        /// Gets or sets the name of the device which compatible to this firmware.
-        /// </summary>
-        string DeviceName { get; set; }
-        
-        /// <summary>
-        /// Gets or sets the file extension of the firmware file.
-        /// </summary>
-        string FirmwareFileExtension { get; set; }
-    
+        public override void Manipulate(RoutedContext context)
+        {
+            try
+            {
+                _accessTokenValidator.Manipulate(context);
+            }
+            catch(HttpRequestException hre)
+            {
+                hre.ErrorMessage = JsonSerializer.SerializeJson(new ErrorMessage((int)hre.Status, hre.ErrorMessage));
+                hre.ContentType = MimeType.APPLICATION_JSON;
+                throw hre;
+            }
+        }
     }
 }

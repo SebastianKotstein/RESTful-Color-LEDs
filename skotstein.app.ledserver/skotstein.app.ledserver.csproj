@@ -11,6 +11,7 @@
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -21,10 +22,10 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationRevision>1</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -36,6 +37,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\skotstein.app.ledserver.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -45,8 +47,30 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\skotstein.app.ledserver.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>77AD235470B609CFCAB9BAB55A07368630FB2D8B</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>skotstein.app.ledserver_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>true</SignManifests>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.OpenApi, Version=1.1.3.0, Culture=neutral, PublicKeyToken=3f5743946376f042, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.OpenApi.1.1.3\lib\net46\Microsoft.OpenApi.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.OpenApi.CSharpAnnotations.DocumentGeneration, Version=2.0.0.0, Culture=neutral, PublicKeyToken=904b32f89438e57e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.OpenApi.CSharpAnnotations.DocumentGeneration.2.0.0-beta02\lib\net46\Microsoft.OpenApi.CSharpAnnotations.DocumentGeneration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.OpenApi.Readers, Version=1.1.3.0, Culture=neutral, PublicKeyToken=3f5743946376f042, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.OpenApi.Readers.1.1.3\lib\net46\Microsoft.OpenApi.Readers.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -55,6 +79,9 @@
     </Reference>
     <Reference Include="Restful.NET.Core">
       <HintPath>..\..\..\WebServer.NET\RESTful.NET\RESTful.NET\bin\Debug\Restful.NET.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpYaml, Version=1.6.1.0, Culture=neutral, PublicKeyToken=1ced8108e942bc02, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpYaml.1.6.1\lib\net45\SharpYaml.dll</HintPath>
     </Reference>
     <Reference Include="skotstein.net.http.oauth">
       <HintPath>..\..\..\WebServer.NET\RESTful.NET\skotstein.net.http.oauth\bin\Debug\skotstein.net.http.oauth.dll</HintPath>
@@ -80,6 +107,10 @@
     <Compile Include="businesslayer\GroupHandler.cs" />
     <Compile Include="businesslayer\LedHandler.cs" />
     <Compile Include="businesslayer\TrunkEndpoint.cs" />
+    <Compile Include="documentation\ExampleValues.cs" />
+    <Compile Include="documentation\HostValue.cs" />
+    <Compile Include="documentation\OpenApiDocumentBuilder.cs" />
+    <Compile Include="documentation\Replaces.cs" />
     <Compile Include="exceptions\BadRequestException.cs" />
     <Compile Include="exceptions\ResourceNotFoundException.cs" />
     <Compile Include="model\AuthBase.cs" />
@@ -124,6 +155,7 @@
     <Compile Include="restlayer\GroupController.cs" />
     <Compile Include="restlayer\ControllerController.cs" />
     <Compile Include="restlayer\LedController.cs" />
+    <Compile Include="tools\CustomizedAccessTokenValidator.cs" />
     <Compile Include="tools\JsonSerializer.cs" />
     <Compile Include="tools\OptionsPayloadInjector.cs" />
     <Compile Include="tools\Scopes.cs" />
@@ -133,6 +165,8 @@
     <None Include="App.config" />
     <None Include="firmware\ESP8266\0.9\F1.ino" />
     <None Include="packages.config" />
+    <None Include="skotstein.app.ledserver.licenseheader" />
+    <None Include="skotstein.app.ledserver_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">

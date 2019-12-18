@@ -1,5 +1,27 @@
-﻿using Newtonsoft.Json;
+﻿// MIT License
+//
+// Copyright (c) 2019 Sebastian Kotstein
+// 
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+using Newtonsoft.Json;
 using skotstein.app.ledserver.restlayer;
+using skotstein.app.ledserver.tools;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -65,12 +87,19 @@ namespace skotstein.app.ledserver.model
         /// </summary>
         [DisplayName("Group LEDs")]
         [Description("Hyperlink to the LEDs being member of this group")]
-        [JsonProperty("leds")]
+        [JsonProperty("leds", NullValueHandling = NullValueHandling.Ignore)]
         public Hyperlink ToLeds
         {
             get
             {
-                return new Hyperlink(ApiBase.API_V1 + "/groups/" + _id + "/leds");
+                if (Settings.ENABLE_HATEOAS)
+                {
+                    return new Hyperlink(ApiBase.API_V1 + "/groups/" + _id + "/leds");
+                }
+                else
+                {
+                    return null;
+                }
             }
         }
 
@@ -79,12 +108,19 @@ namespace skotstein.app.ledserver.model
         /// </summary>
         [DisplayName("Self")]
         [Description("Hyperlink to this resource")]
-        [JsonProperty("self")]
+        [JsonProperty("self", NullValueHandling = NullValueHandling.Ignore)]
         public Hyperlink ToSelf
         {
             get
             {
-                return new Hyperlink(ApiBase.API_V1 + "/groups/" + _id);
+                if (Settings.ENABLE_HATEOAS)
+                {
+                    return new Hyperlink(ApiBase.API_V1 + "/groups/" + _id);
+                }
+                else
+                {
+                    return null;
+                }
             }
         }
 
@@ -94,12 +130,19 @@ namespace skotstein.app.ledserver.model
         /// </summary>
         [DisplayName("Change Name")]
         [Description("Hyperlink to the LEDs being member of this group")]
-        [JsonProperty("change_name")]
+        [JsonProperty("change_name", NullValueHandling = NullValueHandling.Ignore)]
         public Hyperlink ChangeName
         {
             get
             {
-                return new Hyperlink(ApiBase.API_V1 + "/groups/" + _id){Action="PUT"};
+                if (Settings.ENABLE_HATEOAS)
+                {
+                    return new Hyperlink(ApiBase.API_V1 + "/groups/" + _id){Action="PUT"};
+                }
+                else
+                {
+                    return null;
+                }
             }
         }
 
@@ -108,12 +151,20 @@ namespace skotstein.app.ledserver.model
         /// </summary>
         [DisplayName("Remove Group")]
         [Description("Hyperlink for deleting this group")]
-        [JsonProperty("remove_group")]
+        [JsonProperty("remove_group", NullValueHandling = NullValueHandling.Ignore)]
         public Hyperlink DeleteGroup
         {
             get
             {
-                return new Hyperlink(ApiBase.API_V1 + "/groups/" + _id) { Action = "DELETE" };
+                if (Settings.ENABLE_HATEOAS)
+                {
+                    return new Hyperlink(ApiBase.API_V1 + "/groups/" + _id) { Action = "DELETE" };
+                }
+                else
+                {
+                    return null;
+                }
+                
             }
         }
 

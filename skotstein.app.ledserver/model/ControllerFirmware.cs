@@ -1,5 +1,27 @@
-﻿using Newtonsoft.Json;
+﻿// MIT License
+//
+// Copyright (c) 2019 Sebastian Kotstein
+// 
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+using Newtonsoft.Json;
 using skotstein.app.ledserver.restlayer;
+using skotstein.app.ledserver.tools;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -144,12 +166,20 @@ namespace skotstein.app.ledserver.model
         /// </summary>
         [DisplayName("Controller")]
         [Description("Hyperlink to the underlying controller")]
-        [JsonProperty("controller")]
+        [JsonProperty("controller", NullValueHandling = NullValueHandling.Ignore)]
         public Hyperlink ToController
         {
             get
             {
-                return new Hyperlink(ApiBase.API_V1 + "/controllers/" + _controllerId);
+                if (Settings.ENABLE_HATEOAS)
+                {
+                    return new Hyperlink(ApiBase.API_V1 + "/controllers/" + _controllerId);
+                }
+                else
+                {
+                    return null;
+                }
+                
             }
         }
 
@@ -158,12 +188,12 @@ namespace skotstein.app.ledserver.model
         /// </summary>
         [DisplayName("Installed Firmware")]
         [Description("Hyperlink to the installed firmware (might be null if the controller is offline)")]
-        [JsonProperty("installedFirmware")]
+        [JsonProperty("installedFirmware", NullValueHandling = NullValueHandling.Ignore)]
         public Hyperlink ToFirmware
         {
             get
             {
-                if (String.IsNullOrWhiteSpace(_firmwareId))
+                if (String.IsNullOrWhiteSpace(_firmwareId) || !Settings.ENABLE_HATEOAS)
                 {
                     return null;
                 }
@@ -179,12 +209,20 @@ namespace skotstein.app.ledserver.model
         /// </summary>
         [DisplayName("Available Firmware")]
         [Description("Hyperlink to the list of available firmware for this controller")]
-        [JsonProperty("availableFirmware")]
+        [JsonProperty("availableFirmware", NullValueHandling = NullValueHandling.Ignore)]
         public Hyperlink AvailableFirmwares
         {
             get
             {
-                return new Hyperlink(ApiBase.API_V1 + "/firmware?uuid=" + _controllerUuId + "&leds=" + _ledCounter);
+                if (Settings.ENABLE_HATEOAS)
+                {
+                    return new Hyperlink(ApiBase.API_V1 + "/firmware?uuid=" + _controllerUuId + "&leds=" + _ledCounter);
+                }
+                else
+                {
+                    return null;
+                }
+                
             }
         }
 
@@ -193,12 +231,20 @@ namespace skotstein.app.ledserver.model
         /// </summary>
         [DisplayName("Self")]
         [Description("Link to this resource")]
-        [JsonProperty("self")]
+        [JsonProperty("self", NullValueHandling = NullValueHandling.Ignore)]
         public Hyperlink ToSelf
         {
             get
             {
-                return new Hyperlink(ApiBase.API_V1 + "/controllers/" + _controllerId + "/firmware");
+                if (Settings.ENABLE_HATEOAS)
+                {
+                    return new Hyperlink(ApiBase.API_V1 + "/controllers/" + _controllerId + "/firmware");
+                }
+                else
+                {
+                    return null;
+                }
+                
             }
         }
 

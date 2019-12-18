@@ -1,4 +1,25 @@
-﻿using skotstein.app.ledserver.exceptions;
+﻿// MIT License
+//
+// Copyright (c) 2019 Sebastian Kotstein
+// 
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+using skotstein.app.ledserver.exceptions;
 using skotstein.app.ledserver.model;
 using skotstein.app.ledserver.persistent;
 using skotstein.app.ledserver.restlayer;
@@ -39,7 +60,7 @@ namespace skotstein.app.ledserver.businesslayer
         /// Returns an instance of <see cref="Groups"/> which contains all <see cref="Group"/>s matching the passed query. The following query parameters can be applied:
         ///<list type="number">
         ///     <item>query parameter <code>id</code>: returns only the <see cref="Group"/> having the passed <see cref="Group.Id"/></item>
-        ///     <item>query parameter <code>name</code>: returns all <see cref="Grpup"/>s whose <see cref="Group.Name"/> contains the passed value (case invariant).</item>
+        ///     <item>query parameter <code>name</code>: returns all <see cref="Group"/>s whose <see cref="Group.Name"/> contains the passed value (case invariant).</item>
         ///     <item>query parameter <code>ledId</code>: returns all <see cref="Group"/>s where the <see cref="Led"/> having the passed ID is a member.</item>
         /// </list>
         /// If multiple query parameters are applied, the respective <see cref="Group"/> must match all query criterion in order to be in the returned list of <see cref="Groups"/>.
@@ -227,24 +248,6 @@ namespace skotstein.app.ledserver.businesslayer
             }
         }
 
-        /*
-        public void RemoveLedsFromGroup(int id, IList<string> ledIds)
-        {
-            if (_groupStorage.HasGroup(id))
-            {
-                foreach (string ledId in ledIds)
-                {
-                    _groupStorage.RemoveLed(id, ledId);
-                } 
-            }
-            else
-            {
-                throw new ResourceNotFoundException("The group having the ID: " + id + " does not exist");
-            }
-        }
-        */
-
-        /// <summary>
         /// Sets the color of all <see cref="Leds"/> being member of the <see cref="Group"/> having the specified <see cref="Group.Id"/>.
         /// The methods throws a <see cref="ResourceNotFoundException"/> if the underlying <see cref="Group"/> does not exist.
         /// </summary>

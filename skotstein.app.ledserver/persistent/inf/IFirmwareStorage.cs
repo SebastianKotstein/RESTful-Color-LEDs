@@ -1,4 +1,25 @@
-﻿using System;
+﻿// MIT License
+//
+// Copyright (c) 2019 Sebastian Kotstein
+// 
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,7 +44,7 @@ namespace skotstein.app.ledserver.persistent
         IFirmwareDataSet GetFirmware(string id);
 
         /// <summary>
-        /// Returns the raw data of the firmware matching the passed ID or null, if there is no <see cref="IFirmwareDataSet"/> matching the ID.
+        /// Returns the raw data of the firmware matching the passed ID or null, if there is no <see cref="IFirmwareDataSet"/> matching the ID or the raw data does not exist.
         /// </summary>
         /// <param name="id">ID of the <see cref="IFirmwareDataSet"/></param>
         /// <returns>the raw data</returns>
@@ -37,6 +58,13 @@ namespace skotstein.app.ledserver.persistent
         void SetRawData(string id, string rawData);
 
         /// <summary>
+        /// Returns true, if the <see cref="IFirmwareDataSet"/> having the passed ID has raw data, else false.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>true or false</returns>
+        bool HasRawData(string id);
+
+        /// <summary>
         /// Returns true, if there is a <see cref="IFirmwareDataSet"/> having the passed ID, else false.
         /// </summary>
         /// <param name="id"></param>
@@ -44,9 +72,9 @@ namespace skotstein.app.ledserver.persistent
         bool HasFirmware(string id);
 
         /// <summary>
-        /// Stores the passed <see cref="IFirmwareDataSet"/> as well as the raw data of the firmware as a new entity. Note that the <see cref="IFirmwareDataSet.Id"/> included in
+        /// Stores the passed <see cref="IFirmwareDataSet"/> as a new entity. Note that the <see cref="IFirmwareDataSet.Id"/> included in
         /// <see cref="IFirmwareDataSet"/> must be set and must be unique. This methods throws an <see cref="Exception"/> if there is already a <see cref="IFirmwareDataSet"/> having the specified ID, or if
-        /// the ID is not set.
+        /// the ID is not set. Note that the raw data must be created and stored separately (see <see cref="SetRawData(string, string)"/>).
         /// </summary>
         /// <param name="firmwareDataSet"><see cref="IFirmwareDataSet"/> to be added</param>
         /// <param name="rawData">raw data of the firmware to be added</param>
